@@ -28,5 +28,7 @@ spec:
           mountPath: /var/lib/mysql
       volumes:
       - name: mysql-data
-        persistentVolumeClaim:
-          claimName: mysql-data
+        hostPath:
+          path: /data/gluster/mysql
+#        persistentVolumeClaim:
+#          claimName: mysql-data

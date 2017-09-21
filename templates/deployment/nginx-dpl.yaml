@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx
+        image: vmware/nginx-photon:1.11.13
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
@@ -26,7 +26,11 @@ spec:
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
         - name: nginx-certificates
-          mountPath: /etc/nginx/certs
+          mountPath: /etc/nginx/certs/server.crt
+          subPath: tls.crt
+        - name: nginx-certificates
+          mountPath: /etc/nginx/certs/server.key
+          subPath: tls.key
       volumes:
       - name: nginx-config
         configMap:

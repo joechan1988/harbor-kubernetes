@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: registry
-        image: registry:2.6.2
+        image: vmware/registry:2.6.2-photon
         imagePullPolicy: IfNotPresent
         args: ["serve", "/etc/registry/config.yml"]
         env:
@@ -30,17 +30,19 @@ spec:
           mountPath: /var/lib/registry
         - name: registry-root-certificate
           mountPath: /etc/registry/root.crt
-          subPath: root.crt
+          subPath: tls.crt
         - name: registry-config
           mountPath: /etc/registry/config.yml
           subPath: config.yml
       volumes:
       - name: registry-data
-        persistentVolumeClaim:
-          claimName: registry-data
+#        persistentVolumeClaim:
+#          claimName: registry-data
+        hostPath:
+          path: /data/gluster/registry
       - name: registry-root-certificate
         secret:
-          secretName: registry-secrets
+          secretName: nginx-certificates
       - name: registry-config
         configMap:
           name: registry-config

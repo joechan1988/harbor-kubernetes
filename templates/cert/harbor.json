@@ -1,0 +1,24 @@
+{
+    "CN": "harbor",
+    "hosts": [
+        "harbor",
+        "registry",
+        "quay.io",
+        "gcr.io",
+        "adminserver",
+        "ui",
+        "jobservice",
+        "$cluster_ip",
+        "$host_ip",
+        "$hostname"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "O": "DockerRegistry"
+        }
+    ]
+}

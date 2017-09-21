@@ -11,7 +11,7 @@ spec:
       labels:
         app: ui
     spec:
-       containers:
+      containers:
       - name: ui
         image: vmware/harbor-ui:v1.2.0
         env:
@@ -62,9 +62,9 @@ spec:
               path: key
       - name: ui-secrets-private-key
         secret:
-          secretName: ui-secrets
+          secretName: nginx-certificates
           items:
-            - key: private_key.pem
+            - key: tls.key
               path: private_key.pem
       - name: ca-download
         emptyDir: {}

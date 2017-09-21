@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:9.6.4
+        image: vmware/postgresql:9.6.4-photon
         env:
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -36,5 +36,7 @@ spec:
           protocol: TCP
       volumes:
       - name: pgdata
-        persistentVolumeClaim:
-          claimName: postgres-data
+#        persistentVolumeClaim:
+#          claimName: postgres-data
+        hostPath:
+          path: /data/postgres
