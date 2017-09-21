@@ -39,4 +39,4 @@ spec:
 #        persistentVolumeClaim:
 #          claimName: postgres-data
         hostPath:
-          path: /data/postgres
+          path: /data/gluster/postgres

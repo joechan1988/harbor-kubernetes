@@ -8,8 +8,8 @@ spec:
       name: http
     - port: 443
       name: https
-      nodePort: 8889
-  clusterIP: 10.254.1.1
+      nodePort: $service_port
+  clusterIP: $cluster_ip
   selector:
     app: nginx
   type: NodePort

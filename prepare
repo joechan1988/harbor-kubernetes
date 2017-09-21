@@ -138,6 +138,7 @@ validate(rcp, args)
 host_ip = rcp.get("configuration", "host_ip")
 hostname = rcp.get("configuration", "hostname")
 cluster_ip = rcp.get("configuration", "cluster_ip")
+service_port = rcp.get("configuration", "service_port")
 protocol = rcp.get("configuration", "ui_url_protocol")
 ui_url = protocol + "://" + cluster_ip
 ext_ui_url = protocol + "://" + host_ip
@@ -227,45 +228,11 @@ mysql_secret = os.path.join(config_dir, "secret", "mysql-secrets.yaml")
 nginx_cm = os.path.join(config_dir,"cm", "nginx-cm.yaml")
 nginx_secret = os.path.join(config_dir,"secret", "nginx-secrets.yaml")
 
-# clair_secret = os.path.join(config_dir,"secret", "clair-secrets.yaml")
 clair_cm = os.path.join(config_dir,"cm", "clair-cm.yaml")
 postgres_secret = os.path.join(config_dir,"secret", "postgres-secrets.yaml")
 
 cert_dir = os.path.join(config_dir, "cert")
 
-#---Unit Test---
-#
-# if args.test_unit == 'nginx' and protocol == 'https':
-#     target_cert_path = os.path.join(cert_dir, os.path.basename(cert_path))
-#     if not os.path.exists(cert_dir):
-#         os.makedirs(cert_dir)
-#     shutil.copy2(cert_path, target_cert_path)
-#     target_cert_key_path = os.path.join(cert_dir, os.path.basename(cert_key_path))
-#     shutil.copy2(cert_key_path, target_cert_key_path)
-#     print(os.path.join("/etc/nginx/cert", os.path.basename(target_cert_key_path)))
-#     print(os.path.join(templates_dir, 'cm','nginx-https.yaml'))
-#     # render(os.path.join(templates_dir, 'cm','nginx-https.yaml'),nginx_conf,
-#     #        ssl_cert=os.path.join("/etc/nginx/cert", os.path.basename(target_cert_path)),
-#     #        ssl_cert_key=os.path.join("/etc/nginx/cert", os.path.basename(target_cert_key_path)))
-#     render(os.path.join(templates_dir, 'cm','nginx-https.yaml'),nginx_conf,
-#            ssl_cert=os.path.join("/etc/nginx/cert", os.path.basename(target_cert_path)),
-#            ssl_cert_key=os.path.join("/etc/nginx/cert", os.path.basename(target_cert_key_path)))
-#     exit(0)
-#
-# if protocol == "https":
-#     # target_cert_path = os.path.join(cert_dir, os.path.basename(cert_path))
-#     # if not os.path.exists(cert_dir):
-#     #     os.makedirs(cert_dir)
-#     # shutil.copy2(cert_path, target_cert_path)
-#     # target_cert_key_path = os.path.join(cert_dir, os.path.basename(cert_key_path))
-#     # shutil.copy2(cert_key_path, target_cert_key_path)
-#     render(os.path.join(templates_dir, 'cm','nginx-https.yaml'),
-#            nginx_conf,
-#            ssl_cert=os.path.join("/etc/nginx/cert", "server.crt"),
-#            ssl_cert_key=os.path.join("/etc/nginx/cert", "server.key"))
-# else:
-#     render(os.path.join(templates_dir, 'cm','nginx-http.yaml'),
-#            nginx_conf)
 
 render(os.path.join(templates_dir, "cert", "harbor.json"),
        os.path.join(cert_dir,"harbor.json"),
@@ -387,6 +354,10 @@ shutil.copytree(os.path.join(templates_dir, "pvc"),
                 os.path.join(config_dir,"pvc"))
 shutil.copytree(os.path.join(templates_dir, "deployment"),
                 os.path.join(config_dir,"deployment"))
+
+render(os.path.join(templates_dir, "service", "nginx-svc.yaml"),
+       service_port=service_port,
+       cluster_ip=cluster_ip)
 #
 # print("Generated configuration file: %s" % ui_conf)
 # shutil.copyfile(os.path.join(templates_dir, "cm", "ui.yaml"), ui_conf)
